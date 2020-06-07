@@ -2,9 +2,6 @@
 
 #include <opencv2/opencv.hpp>
 
-#include <utility>
-
-
 namespace PPS
 {
   // Forward declarations
@@ -13,19 +10,28 @@ namespace PPS
   class PrimordialParticle
   {
   public:
+    friend class PrimordialParticleSystem;
     // Standard issue constructor
     PrimordialParticle(float iX, float iY, float iPhi,
-                       float v, float alpha, float beta, float radius);
+                       float iV, float iAlpha, float iBeta, float iRadius);
 
     // Update state
     void update();
 
     // Reset the counters
-    void resetCounters(); 
+    void resetCounters();
+
+    // Fill the particle so that is within dimensions
+    void clipParticle(int width, int height); 
 
     // Draw on the canvas
     void draw(cv::Mat& ioCanvas, cv::Scalar iColor);
 
+    // Find the relative direction of a particle
+    // 1 if b is on the rightside of a,
+    // -1 if it is on the left
+    static int RelativeDirection(const PrimordialParticle& a, const PrimordialParticle& b);
+    
     // Simulate the interaction between points
     static void ParticleInteraction(PrimordialParticle& a, PrimordialParticle& b);
 
