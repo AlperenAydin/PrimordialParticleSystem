@@ -71,7 +71,7 @@ namespace PPS {
     // Using the right hand rule, we know that if b is to the right a
     // the result has to be 
     float xProduct = std::cos(a.phi*M_PI/180.0)*(b.y - a.y)
-      - std::sin(a.phi*M_PI/180.0)*(b.x - a.y);
+      - std::sin(a.phi*M_PI/180.0)*(b.x - a.x);
 
     if( xProduct < 0)
       return 1;
