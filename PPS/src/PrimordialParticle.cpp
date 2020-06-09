@@ -42,9 +42,10 @@ namespace PPS {
   {
     // Update the angle
     phi += alpha + beta*N*signum(RL);
+    phi = modulo(phi, 360);
     // Then update the position
-    x += std::cos(phi*M_PI/180.0);
-    y += std::sin(phi*M_PI/180.0);             
+    x += v*std::cos(phi*M_PI/180.0);
+    y += v*std::sin(phi*M_PI/180.0);             
   }
 
   void PrimordialParticle::resetCounters()
@@ -61,7 +62,7 @@ namespace PPS {
 
   void PrimordialParticle::draw(cv::Mat &ioCanvas, cv::Scalar iColor)
   {
-    cv::circle(ioCanvas, cv::Point(x,y), 5, iColor);
+    cv::circle(ioCanvas, cv::Point(x,y), 5, iColor, cv::FILLED);
   }
 
   int PrimordialParticle::RelativeDirection(const PrimordialParticle& a,

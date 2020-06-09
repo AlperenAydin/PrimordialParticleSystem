@@ -7,11 +7,11 @@
 
 int main()
 {
-  int width = 500;
-  int height = 500;
+  int width = 1000;
+  int height = 1000;
   PPS::PrimordialParticleSystem aSystem(100,
                                         width, height,
-                                        6, 60, -50, 55);
+                                        6, 0, -6, 55);
   cv::namedWindow("canvas", cv::WINDOW_AUTOSIZE);
   cv::Mat aCanvas(height, width, CV_8UC3, cv::Scalar(255,255,255));
 
@@ -22,7 +22,7 @@ int main()
       aSystem.draw(aCanvas);
 
       cv::imshow("canvas", aCanvas);
-      char c = (char)cv::waitKey(1);
+      char c = (char)cv::waitKey(5);
       if(c==27)
         break;
     }

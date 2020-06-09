@@ -2,14 +2,28 @@
 #include <PPS/PrimordialParticle.hpp>
 
 #include <algorithm>
+#include <opencv2/imgproc.hpp>
 #include <opencv2/opencv.hpp>
 
 #include <random>
 
 // General Utility
-float randf(float max) {
+inline float randf(float max) {
   float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-  return r*max; 
+  return r*max;
+}
+
+inline cv::Scalar convertHSL2BGR(float H, float S, float L) {
+  cv::Mat rgb;
+  cv::Mat hsl(1, 1, CV_8UC3, cv::Scalar(H,S,L));
+  cv::cvtColor(hsl, rgb, cv::COLOR_HLS2BGR);
+  return cv::Scalar(rgb.data[0], rgb.data[1], rgb.data[2]);
+}
+
+inline cv::Scalar getParticleColor(int N, int N_max) {
+  float H = static_cast<float>(N) / static_cast<float>(N_max);
+  H = 150.0*H;
+  return convertHSL2BGR(H, 77, 255);
 }
 
 namespace PPS {
@@ -56,9 +70,15 @@ namespace PPS {
 
   void PrimordialParticleSystem::draw(cv::Mat &ioCanvas)
   {
+    auto comp = [](PrimordialParticle& a, PrimordialParticle b)
+                {return a.N < b.N;};
+    int N_max = std::max_element(particles.begin(), particles.end(),
+                                 comp) -> N;
+      
     for(PrimordialParticle& p: particles)
       {
-        p.draw(ioCanvas, cv::Scalar(0,0,0));
+        auto color = getParticleColor(p.N, N_max);
+        p.draw(ioCanvas, color);
       }
   }
 
