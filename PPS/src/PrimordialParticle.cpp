@@ -75,8 +75,8 @@ namespace PPS {
       - std::sin(a.phi*M_PI/180.0)*(b.x - a.x);
 
     if( xProduct < 0)
-      return 1;
-    return -1;     
+      return -1;
+    return 1;     
   }
 
   void PrimordialParticle::ParticleInteraction(PrimordialParticle &a, PrimordialParticle &b)
