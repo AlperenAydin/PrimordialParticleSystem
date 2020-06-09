@@ -21,8 +21,8 @@ namespace PPS {
                                                      float iRadius) :
     width(iWidth), height(iHeight)
   {
-    particles.reserve(N);
-    for(int i=0; i <N; i++)
+    particles.reserve(iN);
+    for(int i=0; i < iN; i++)
     {
       PrimordialParticle p(randf(width),
                            randf(height),
