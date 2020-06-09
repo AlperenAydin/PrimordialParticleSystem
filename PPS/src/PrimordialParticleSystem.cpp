@@ -13,7 +13,7 @@ inline float randf(float max) {
   return r*max;
 }
 
-inline cv::Scalar convertHSL2BGR(float H, float S, float L) {
+inline cv::Scalar convertHLS2BGR(float H, float S, float L) {
   cv::Mat rgb;
   cv::Mat hsl(1, 1, CV_8UC3, cv::Scalar(H,S,L));
   cv::cvtColor(hsl, rgb, cv::COLOR_HLS2BGR);
@@ -23,7 +23,7 @@ inline cv::Scalar convertHSL2BGR(float H, float S, float L) {
 inline cv::Scalar getParticleColor(int N, int N_max) {
   float H = static_cast<float>(N) / static_cast<float>(N_max);
   H = 150.0*H;
-  return convertHSL2BGR(H, 77, 255);
+  return convertHLS2BGR(H, 0.3*255, 255);
 }
 
 namespace PPS {
