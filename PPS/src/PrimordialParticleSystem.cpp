@@ -34,9 +34,10 @@ namespace PPS {
 
   void PrimordialParticleSystem::update()
   {
+    // Resetting the counters of all particles
     std::for_each(particles.begin(), particles.end(),
                   [] (PrimordialParticle &p) {p.resetCounters();});
-    
+    // Simulating the interaction between each particle
     int N = particles.size();
     for( int i = 0; i < N; i++)
       {
@@ -45,8 +46,20 @@ namespace PPS {
             PrimordialParticle::ParticleInteraction(particles[i], particles[j]);
           }
       }
+    // Updating and clipping
+    for(auto& p: particles)
+      {
+        p.update();
+        p.clipParticle(width, height);
+      } 
+  }
 
-    
+  void PrimordialParticleSystem::draw(cv::Mat &ioCanvas)
+  {
+    for(PrimordialParticle& p: particles)
+      {
+        p.draw(ioCanvas, cv::Scalar(0,0,0));
+      }
   }
 
   } // namespace PPS
