@@ -8,14 +8,20 @@
 
 int main()
 {
+  // Parameters of the canvas
   int width = 1000;
   int height = 1000;
-  PPS::PrimordialParticleSystem aSystem(500,
+  // Creating the system
+  PPS::PrimordialParticleSystem aSystem(800,
                                         width, height,
-                                        15, 120, -60, 55);
+                                        6, 120, -6, 70);
+  // Preparing the window, canvas and video writer
   cv::namedWindow("canvas", cv::WINDOW_AUTOSIZE);
-  cv::Mat aCanvas(height, width, CV_8UC4, cv::Scalar(255,255,255));
-
+  cv::Mat aCanvas(height, width, CV_8UC3, cv::Scalar(255,255,255));
+  cv::VideoWriter video("output.avi", 
+                        cv::VideoWriter::fourcc('M','J','P','G'),
+                        30,
+                        cv::Size(aCanvas.cols,aCanvas.rows));
   while(1)
     {
       aCanvas = aCanvas + cv::Scalar(50,50,50);
@@ -23,9 +29,12 @@ int main()
       aSystem.draw(aCanvas);
 
       cv::imshow("canvas", aCanvas);
-      char c = (char)cv::waitKey(20);
+      video.write(aCanvas);
+      char c = (char)cv::waitKey(1);
       if(c==27)
         break;
     }
+  // Destroy the writer
+  video.release();
   return 0;
 }
