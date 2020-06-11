@@ -6,18 +6,22 @@
 #include <opencv2/core/types.hpp>
 #include <opencv2/highgui.hpp>
 
-int main()
+#include "config.hpp"
+
+int main(int argc, char *argv[])
 {
-  // Parameters of the canvas
-  int width = 1000;
-  int height = 1000;
+  // Configuration
+  Config c(argc, argv);
+  if( c.help)
+    return 0;
+  c.showConfig();
   // Creating the system
-  PPS::PrimordialParticleSystem aSystem(800,
-                                        width, height,
-                                        6, 120, -6, 70);
+  PPS::PrimordialParticleSystem aSystem(c.N,
+                                        c.width, c.height,
+                                        c.v, c.alpha, c.beta, c.radius);
   // Preparing the window, canvas and video writer
   cv::namedWindow("canvas", cv::WINDOW_AUTOSIZE);
-  cv::Mat aCanvas(height, width, CV_8UC3, cv::Scalar(255,255,255));
+  cv::Mat aCanvas(c.height, c.width, CV_8UC3, cv::Scalar(255,255,255));
   cv::VideoWriter video("output.avi", 
                         cv::VideoWriter::fourcc('M','J','P','G'),
                         30,
